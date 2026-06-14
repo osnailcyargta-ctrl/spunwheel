@@ -4,6 +4,7 @@ import android.animation.*
 import android.content.Context
 import android.graphics.*
 import android.util.AttributeSet
+import android.view.animation.DecelerateInterpolator
 import android.view.View
 import kotlin.math.*
 
@@ -55,32 +56,23 @@ class WheelView @JvmOverloads constructor(
         items.forEachIndexed { i, item ->
             val startAngle = i * sweepAngle
 
-            // Slice
             paint.color = item.color
             paint.style = Paint.Style.FILL
             canvas.drawArc(rectF, startAngle, sweepAngle, true, paint)
 
-            // Border
             canvas.drawArc(rectF, startAngle, sweepAngle, true, borderPaint)
 
-            // Text
             textPaint.color = item.textColor
             val textRadius = radius * 0.65f
-            val midAngle = Math.toRadians((startAngle + sweepAngle / 2.0))
-            val tx = cx + textRadius * cos(midAngle).toFloat()
-            val ty = cy + textRadius * sin(midAngle).toFloat()
 
-            canvas.save()
-            canvas.rotate((startAngle + sweepAngle / 2f), cx, cy)
-
-            // Adaptive text size
             val maxWidth = 2 * radius * sin(Math.toRadians(sweepAngle / 2.0)).toFloat() * 0.85f
             textPaint.textSize = 42f
             while (textPaint.measureText(item.label) > maxWidth && textPaint.textSize > 18f) {
                 textPaint.textSize -= 2f
             }
 
-            // Draw text rotated along slice
+            canvas.save()
+            canvas.rotate((startAngle + sweepAngle / 2f), cx, cy)
             val textX = cx + textRadius
             val textY = cy + textPaint.textSize / 3f
             canvas.drawText(item.label, textX, textY, textPaint)
@@ -89,7 +81,6 @@ class WheelView @JvmOverloads constructor(
 
         canvas.restore()
 
-        // Center circle
         canvas.drawCircle(cx, cy, 28f, centerPaint)
         paint.color = Color.parseColor("#2A2A30")
         paint.style = Paint.Style.FILL
@@ -97,7 +88,6 @@ class WheelView @JvmOverloads constructor(
         paint.color = Color.WHITE
         canvas.drawCircle(cx, cy, 10f, paint)
 
-        // Pointer (right side = 0 degrees)
         val px = cx + radius + 14f
         val path = Path().apply {
             moveTo(px + 20f, cy)
@@ -116,11 +106,9 @@ class WheelView @JvmOverloads constructor(
         val stopOffset = (0 until 360).random().toFloat()
         val totalRotation = rotation + extraSpins + stopOffset
 
-        // Figure out which item will land
         val count = items.size
         val sweepAngle = 360f / count
         val normalizedFinal = ((totalRotation % 360) + 360) % 360
-        // Pointer is at 0deg (right), item at top of pointer = 360 - normalizedFinal
         val pointerAngle = (360f - normalizedFinal + 360f) % 360f
         resultIndex = ((pointerAngle / sweepAngle).toInt()) % count
 
