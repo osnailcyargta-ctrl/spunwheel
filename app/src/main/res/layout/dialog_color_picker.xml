@@ -37,7 +37,6 @@
             android:singleLine="true"
             android:inputType="text"
             android:hint="#RRGGBB"
-            android:hintTextColor="#333333"
             android:fontFamily="monospace"/>
     </LinearLayout>
 
