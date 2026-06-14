@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="52dp"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:paddingStart="4dp"
+    android:paddingEnd="4dp"
+    android:paddingTop="4dp"
+    android:paddingBottom="4dp">
+
+    <!-- Slice color swatch -->
+    <View
+        android:id="@+id/swatch_color"
+        android:layout_width="28dp"
+        android:layout_height="28dp"
+        android:layout_marginEnd="10dp"/>
+
+    <!-- Text color swatch -->
+    <View
+        android:id="@+id/swatch_text"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginEnd="12dp"/>
+
+    <!-- Label -->
+    <EditText
+        android:id="@+id/edit_label"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_weight="1"
+        android:background="#16161A"
+        android:textColor="#FFFFFF"
+        android:textSize="14sp"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
+        android:singleLine="true"
+        android:inputType="text"/>
+
+    <!-- Delete -->
+    <TextView
+        android:id="@+id/btn_delete"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:gravity="center"
+        android:text="×"
+        android:textColor="#555555"
+        android:textSize="22sp"
+        android:layout_marginStart="8dp"/>
+
+</LinearLayout>
